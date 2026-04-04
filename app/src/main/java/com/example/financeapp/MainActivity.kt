@@ -28,12 +28,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.financeapp.ui.features.home.HomeRoute
+import com.example.financeapp.ui.features.transaction.TransactionRoute
 import com.example.financeapp.ui.route.Goals
 import com.example.financeapp.ui.route.Home
 import com.example.financeapp.ui.route.Insight
 import com.example.financeapp.ui.route.NavRoutes
 import com.example.financeapp.ui.route.Transaction
 import com.example.financeapp.ui.theme.FinanceAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 
 sealed class BottomBarNavigationDestination(
@@ -46,6 +49,8 @@ sealed class BottomBarNavigationDestination(
     object GoalsDestination : BottomBarNavigationDestination(Goals,"Goals", Icons.Default.TrackChanges)
     object InsightDestination : BottomBarNavigationDestination(Insight,"Insights",Icons.Default.Analytics)
 }
+
+@AndroidEntryPoint
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -97,19 +102,14 @@ class MainActivity : ComponentActivity() {
                     }) { innerPadding ->
                     NavHost(
                         navController,
-                        startDestination = Home
+                        startDestination = Home,
+                        modifier = Modifier.padding(innerPadding)
                         ){
                         composable<Home> {
-                            Greeting(
-                                name = "Home",
-                                modifier = Modifier.padding(innerPadding)
-                            )
+                            HomeRoute()
                         }
                         composable<Transaction> {
-                            Greeting(
-                                name = "Transaction",
-                                modifier = Modifier.padding(innerPadding)
-                            )
+                            TransactionRoute()
                         }
                         composable<Goals> {
                             Greeting(
