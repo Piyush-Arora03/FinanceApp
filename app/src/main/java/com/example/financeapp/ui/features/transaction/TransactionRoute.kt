@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlin.reflect.KFunction1
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -40,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.financeapp.data.local.FinancialTransaction
 import com.example.financeapp.data.models.SpendingCategory
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,7 +72,8 @@ fun TransactionRoute(
             filteredTransactionsList = currentFilteredTransactions,
             onSearchQueryChanged = viewModel::updateSearchQueryText,
             onFilterTypeSelected = viewModel::updateActiveFilterType,
-            onDeleteTransactionClick = viewModel::deleteSpecificTransaction
+            onDeleteTransactionClick = viewModel::deleteSpecificTransaction,
+            generateCsvData = viewModel::generateCsvData
         )
 
         if (isAddTransactionSheetVisible.value) {
