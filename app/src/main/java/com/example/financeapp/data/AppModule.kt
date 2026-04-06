@@ -3,8 +3,8 @@ package com.example.financeapp.data
 import android.content.Context
 import androidx.room.Room
 import com.example.financeapp.data.local.FinanceDatabase
-import com.example.financeapp.data.local.GoalDao
-import com.example.financeapp.data.local.TransactionDao
+import com.example.financeapp.data.local.dao.GoalDao
+import com.example.financeapp.data.local.dao.TransactionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
