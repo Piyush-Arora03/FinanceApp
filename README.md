@@ -15,6 +15,20 @@ A modern, offline-first personal finance tracking application built natively for
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshot/home_1.png" width="200" alt="Biometric Lock Screen" />
+  <img src="docs/screenshot/home_2.png" width="200" alt="Home Dashboard" />
+  <img src="docs/screenshot/transaction_1.png" width="200" alt="Transactions Screen" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshot/goal_1.png" width="200" alt="Goals and Streaks" />
+  <img src="docs/screenshot/insight.png" width="200" alt="Insights and Analytics" />
+  <img src="docs/screenshot/insight_2.png" width="200" alt="Data Export" />
+</p>
+
 ## Architecture & Components
 
 ### 1. Home Dashboard Component
