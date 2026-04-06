@@ -3,8 +3,8 @@ package com.example.financeapp.ui.features.home
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.financeapp.data.local.FinancialTransaction
-import com.example.financeapp.data.local.TransactionDao
+import com.example.financeapp.data.local.entity.FinancialTransaction
+import com.example.financeapp.data.local.dao.TransactionDao
 import com.example.financeapp.data.models.CategorySpendingSummary
 import com.example.financeapp.data.models.DailySpendingSummary
 import dagger.hilt.android.lifecycle.HiltViewModel
