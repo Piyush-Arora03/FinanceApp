@@ -14,17 +14,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.financeapp.data.local.FinancialTransaction
+import com.example.financeapp.data.local.entity.FinancialTransaction
 import com.example.financeapp.data.models.CategorySpendingSummary
 import com.example.financeapp.data.models.DailySpendingSummary
 
+
+private val priBlu = Color(0xFF1976D2)
+private val secBlu = Color(0xFF42A5F5)
+private val terBlu = Color(0xFF0D47A1)
+private val surBlu = Color(0xFFE3F2FD)
 
 @Composable
 fun HomeScreen(
@@ -71,56 +75,60 @@ fun HomeScreen(
 
 @Composable
 fun BalanceSummaryCard(balance: Double, income: Double, expenses: Double) {
-    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Total Balance",
-                style = MaterialTheme.typography.bodyMedium
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .background(
+                color = priBlu,
+                shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
             )
-            Text(
-                text = "\$${balance}",
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
+            .padding(24.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    text = "Total Balance",
+                    color = Color.White.copy(alpha = 0.8f),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "\$${balance}",
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Card(
                     modifier = Modifier.weight(1f),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))
+                    colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)),
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(0.dp)
                 ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Text(
-                            text = "Income",
-                            color = Color(0xFF2E7D32),
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = "\$$income",
-                            color = Color(0xFF2E7D32),
-                            fontWeight = FontWeight.Bold
-                        )
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Income", color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+                        Text("\$$income", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     }
                 }
+
                 Card(
                     modifier = Modifier.weight(1f),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE))
+                    colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)),
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(0.dp)
                 ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Text(
-                            text = "Expenses",
-                            color = Color(0xFFC62828),
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = "\$$expenses",
-                            color = Color(0xFFC62828),
-                            fontWeight = FontWeight.Bold
-                        )
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Expenses", color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+                        Text("\$$expenses", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     }
                 }
             }
@@ -132,7 +140,7 @@ fun BalanceSummaryCard(balance: Double, income: Double, expenses: Double) {
 fun SavingsRateCard(rate: Double) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFB300))
+        colors = CardDefaults.cardColors(containerColor = priBlu)
     ) {
         Row(
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
@@ -141,11 +149,11 @@ fun SavingsRateCard(rate: Double) {
             Column {
                 Text(
                     text = "Savings Rate",
-                    color = Color.White,
+                    color = surBlu,
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = "${rate}%",
+                    text = "${"%.2f".format(rate)}%",
                     color = Color.White,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
@@ -158,9 +166,6 @@ fun SavingsRateCard(rate: Double) {
 @Composable
 fun WeeklySpendingChart(dailyData: List<DailySpendingSummary>) {
     val maximumSpendingAmount = dailyData.maxOfOrNull { it.spendingAmount } ?: 1f
-    val barGradientBrush = Brush.verticalGradient(
-        colors = listOf(Color(0xFF8C52FF), Color(0xFF5CE1E6))
-    )
 
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
@@ -181,12 +186,12 @@ fun WeeklySpendingChart(dailyData: List<DailySpendingSummary>) {
                 )
                 Surface(
                     shape = RoundedCornerShape(12.dp),
-                    color = Color(0xFFE0E7FF)
+                    color = surBlu
                 ) {
                     Text(
                         text = "7 days",
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                        color = Color(0xFF4F46E5),
+                        color = priBlu,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium
                     )
@@ -211,7 +216,7 @@ fun WeeklySpendingChart(dailyData: List<DailySpendingSummary>) {
                             modifier = Modifier.fillMaxWidth(0.6f).fillMaxHeight(calculatedHeightPercentage)
                         ) {
                             drawRoundRect(
-                                brush = barGradientBrush,
+                                color = priBlu,
                                 size = Size(size.width, size.height),
                                 cornerRadius = CornerRadius(12.dp.toPx(), 12.dp.toPx())
                             )
@@ -295,7 +300,7 @@ fun TopCategoriesChart(categoryData: List<CategorySpendingSummary>) {
                             Text(
                                 text = "\$${categorySummary.totalAmountSpent.toInt()}",
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF1F2937)
+                                color = terBlu
                             )
                         }
                     }
@@ -328,7 +333,7 @@ fun TransactionListItem(transactionItem: FinancialTransaction) {
             }
             Text(
                 text = if(transactionItem.transactionType == "income") "+\$${transactionItem.transactionAmount}" else "-\$${transactionItem.transactionAmount}",
-                color = if(transactionItem.transactionType == "income") Color(0xFF2E7D32) else Color(0xFFC62828),
+                color = if(transactionItem.transactionType == "income") terBlu else secBlu,
                 fontWeight = FontWeight.Bold
             )
         }
