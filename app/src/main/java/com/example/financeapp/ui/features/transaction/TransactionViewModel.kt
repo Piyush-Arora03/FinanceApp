@@ -2,8 +2,8 @@ package com.example.financeapp.ui.features.transaction
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.financeapp.data.local.TransactionDao
-import com.example.financeapp.data.local.FinancialTransaction
+import com.example.financeapp.data.local.dao.TransactionDao
+import com.example.financeapp.data.local.entity.FinancialTransaction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -81,5 +84,22 @@ class TransactionViewModel @Inject constructor(
             )
             transactionDao.insertNewTransaction(newTransaction)
         }
+    }
+
+    fun generateCsvData(transactions: List<FinancialTransaction>): String {
+        val csvBuilder = java.lang.StringBuilder()
+        csvBuilder.append("Date,Type,Category,Amount,Note\n")
+
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+
+        transactions.forEach { tx ->
+            val dateString = dateFormatter.format(Date(tx.transactionDateTimestamp))
+            val safeCategory = tx.categoryName.replace(",", " ")
+            val safeNote = tx.transactionDescriptionNote.replace(",", " ").replace("\n", " ")
+
+            csvBuilder.append("$dateString,${tx.transactionType},$safeCategory,${tx.transactionAmount},$safeNote\n")
+        }
+
+        return csvBuilder.toString()
     }
 }
